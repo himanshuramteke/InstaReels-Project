@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import "./Video.css";
+import { ReelFooter } from "@/components/atoms/ReelFooter/ReelFooter";
 
 export default function Video({
     id,
@@ -25,7 +26,33 @@ export default function Video({
        if (playing !== id) {
           videoRef.current.pause();
        } 
-    }, [playing]);
+    }, [playing, id]);
+
+    useEffect(() => {
+        //use intersection observer to figure out when the video enters or exit the viewport
+        const observer = new IntersectionObserver((entries) => {
+            //entries are the element that are being observed
+
+            entries.forEach(entry => {
+                if(entry.isIntersecting) {
+                    videoRef.current.play();  //play the video when it is visible
+                    setPlaying(id);
+                }
+            });
+
+        }, {
+           threshold: 0.5 //0.5 means 50% of the video is visible
+        });
+
+        if(videoRef.current) {
+            observer.observe(videoRef.current);
+        }
+        return () => {
+            if(videoRef.observe) {
+                observer.unobserve(videoRef.current);
+            }
+        }
+    }, [id, playing]);
 
     return (
         <div
@@ -38,6 +65,10 @@ export default function Video({
                 ref={videoRef}
                 src={url}>
             </video>
+
+            <div className="bottom">
+              <ReelFooter channel={"issanketsingh"} caption={caption} />
+            </div>
         </div>
     )
 }
