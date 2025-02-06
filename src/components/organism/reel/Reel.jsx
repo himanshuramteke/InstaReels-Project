@@ -1,4 +1,4 @@
-import Video from "@/components/molecules/Video/Video";
+import VideoContainer from "@/components/molecules/Video/VideoContainer";
 import useFetchAllVideos from "@/hooks/apis/useFetchAllVideos";
 import { useEffect, useState } from "react";
 import "./Reel.css";
@@ -29,7 +29,7 @@ export const Reel = () => {
         <div className='app'>
         <div className='container'>
           {isVideoFetched && videosDownloaded.map((currentVideo) => (
-            <Video 
+            <VideoContainer 
               url={currentVideo.url} 
               key={currentVideo.id} 
               id={currentVideo.id} 
