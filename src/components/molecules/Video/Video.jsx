@@ -48,11 +48,11 @@ export default function Video({
             observer.observe(videoRef.current);
         }
         return () => {
-            if(videoRef.observe) {
+            if(videoRef.current) {
                 observer.unobserve(videoRef.current);
             }
         }
-    }, [id, playing]);
+    }, [id, setPlaying]);
 
     return (
         <div
